@@ -9,5 +9,3 @@ class EmployeesViewSet(viewsets.ModelViewSet):
 class EmployeesTypeViewSet(viewsets.ModelViewSet):
     serializer_class=EmployeesTypeSerializers
     queryset=Employees_type.objects.all()
-
-
