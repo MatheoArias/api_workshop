@@ -49,7 +49,7 @@ Example:
 class Buys_products(models.Model):
     product_id=models.ForeignKey(Products, verbose_name="Producto", on_delete=models.CASCADE)
     buys_date=models.DateField("Fecha de compra", auto_now=False, auto_now_add=False)
-    buys_bill=models.CharField("Factura de compra", max_length=100, unique=True, blank=False,null=False)
+    buys_bill=models.CharField("Factura de compra", max_length=100, unique=False, blank=False,null=False)
     buys_stock=models.IntegerField("Cantidad de entrada")
     buys_unit_value=models.DecimalField("Valor unidad", max_digits=11, decimal_places=2)
     
@@ -85,7 +85,7 @@ class Sell_products(models.Model):
     
     product_id=models.ForeignKey(Products, verbose_name="Producto", on_delete=models.CASCADE)
     sell_date=models.DateField("Fecha de venta", auto_now=False, auto_now_add=False)
-    sell_bill=models.CharField("Factura de venta", max_length=100, unique=True, blank=False,null=False)
+    sell_bill=models.CharField("Factura de venta", max_length=100, unique=False, blank=False,null=False)
     sell_stock=models.IntegerField("Cantidad de Salida")
     
     verbose_name = "Producto de Salida"

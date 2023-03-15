@@ -4,8 +4,8 @@ from apps.employee.api.api import EmployeesViewSet,EmployeesTypeViewSet
 
 router= DefaultRouter()
 
-router.register(r'addemployees',EmployeesViewSet, basename="addemployees")
-router.register(r'addemployeesType',EmployeesTypeViewSet, basename="addemployeesType")
+router.register(r'add_employees',EmployeesViewSet, basename="add_employees")
+router.register(r'add_employees_type',EmployeesTypeViewSet, basename="add_employees_type")
 
 urlpatterns = [
     path('', include(router.urls)),

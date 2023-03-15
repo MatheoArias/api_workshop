@@ -8,7 +8,7 @@ class Vehicle(models.Model):
         trademark=models.CharField("Marca", max_length=25,blank=False)
         model=models.CharField("Modelo", max_length=25,blank=False)
         category_id=models.ForeignKey(Categories,on_delete=models.CASCADE, blank=False, verbose_name="Categoría")
-        owner=models.ForeignKey(Customer,on_delete=models.CASCADE,blank=False,verbose_name="Propietario")
+        owner_id=models.ForeignKey(Customer,on_delete=models.CASCADE,blank=False,verbose_name="Propietario")
 
         verbose_name = "Vechículo"
         verbose_name_plural = "Vechículos"
