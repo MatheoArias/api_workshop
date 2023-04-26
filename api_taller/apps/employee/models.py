@@ -44,13 +44,13 @@ Example:
 class Employees(models.Model):
     
     names = models.CharField('Nombres y Apellidos', max_length=100,unique=False, null=False,blank=False)
-    documents_type = models.ForeignKey(DocumentType, verbose_name="Tipo de documento", on_delete=models.CASCADE)
+    document_type = models.ForeignKey(DocumentType, verbose_name="Tipo de documento", on_delete=models.CASCADE)
     document_number=models.CharField("Número de documento", max_length=50,unique=True, null=False, blank=False)
-    telephone_number=models.IntegerField("Número de telephone",unique=False, null=False, blank=False)
-    address_residence=models.CharField("Direccion", max_length=200, unique=False, null=False, blank=False)
+    telephone_number=models.IntegerField("Número de teléfono",unique=False, null=True, blank=False)
+    telephone_cel=models.IntegerField("Número de celular",unique=False, null=True)
+    residence_address=models.CharField("Dirección", max_length=200, unique=False, null=False, blank=False)
     email_address=models.EmailField('Correo Electrónico',unique=False, null=False, blank=False)
-    employees_type_id=models.ForeignKey(Employees_type, verbose_name="Puesto de trabajo", on_delete=models.CASCADE)
-    salarys_value=models.DecimalField("Salario Mensual", max_digits=10, decimal_places=2)
+    employees_type=models.ForeignKey(Employees_type, verbose_name="Puesto de trabajo", on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = "Empleado"

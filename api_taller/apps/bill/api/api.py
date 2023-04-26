@@ -1,10 +1,8 @@
 from rest_framework import viewsets
-from apps.bill.api.serializers import BillSerializers,PaymentMediumSerilizers,DiscountsSerializers,GetModelsSerializers
-from apps.bill.models import Bill,Discounts,PaymentMedium
+from apps.bill.api.serializers import BillSerializers,PaymentMediumSerilizers,GetModelsSerializers
+from apps.bill.models import Bill,PaymentMedium
 
-class DiscountsViewSet(viewsets.ModelViewSet):
-    serializer_class=DiscountsSerializers
-    queryset=Discounts.objects.all()
+
 
 class PaymentMediumViewSet(viewsets.ModelViewSet):
     serializer_class=PaymentMediumSerilizers

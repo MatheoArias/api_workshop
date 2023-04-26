@@ -17,12 +17,12 @@ class GetModelsSerializers(serializers.ModelSerializer):
         model=Vehicle
         fields='__all__'
      
-    category_id = CategoriesSerilaizers(
+    category= CategoriesSerilaizers(
         many=False,
         read_only=True,
     )
     
-    owner_id=GetDocumentTypeSerializers(
+    owner=GetDocumentTypeSerializers(
         many=False,
         read_only=True,
     )

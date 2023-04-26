@@ -1,13 +1,16 @@
 from rest_framework import viewsets
-from apps.products.models import Products, Buys_products,Sell_products
-from apps.products.api.serializers import ProductSerilaizers, GetBuyProductSerilaizers, BuysProductSerializer,SellProductsSerializer,GetSellProductSerilaizers,GetCategoriesSerializer
+from apps.products.models import Products, Buys_products,Sell_products,Discounts
+from apps.products.api.serializers import ProductSerilaizers, GetBuyProductSerilaizers, BuysProductSerializer,SellProductsSerializer,GetSellProductSerilaizers,GetCategoriesSerializer,DiscountsSerializers
 from rest_framework.permissions import IsAuthenticated
 
+
+class DiscountsViewSet(viewsets.ModelViewSet):
+    serializer_class=DiscountsSerializers
+    queryset=Discounts.objects.all()
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerilaizers
     queryset = Products.objects.all()
-    # permission_classes=(IsAuthenticated,)
     
     def get_serializer_class(self):
         serializer_class = self.serializer_class

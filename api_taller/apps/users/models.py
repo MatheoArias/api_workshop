@@ -35,8 +35,8 @@ class User(AbstractBaseUser,PermissionsMixin):
     verbose_name = "Usuario"
     verbose_name_plural = "Usuarios"
     
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email','name','last_name']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username','name','last_name']
     
 
     def __str__(self):

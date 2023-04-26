@@ -21,12 +21,12 @@ class GetEmployeesTypeSerializers(serializers.ModelSerializer):
         model=Employees
         fields='__all__'
         
-    employees_type_id=EmployeesTypeSerializers(
+    employees_type=EmployeesTypeSerializers(
         many=False,
         read_only=True,
     )
     
-    documents_type=DocumentTypeSerializers(
+    document_type=DocumentTypeSerializers(
         many=False,
         read_only=True,
     )

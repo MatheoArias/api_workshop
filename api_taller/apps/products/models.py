@@ -15,6 +15,7 @@ class Products(models.Model):
     description=models.CharField("Descripción", max_length=200)
     category_id=models.ForeignKey(Categories, verbose_name="Categoría", on_delete=models.CASCADE)
     unit_value=models.IntegerField("Valor unitario")
+    percentage=models.DecimalField("Porcentaje de ganacia", max_digits=11, decimal_places=3, blank=False, null=True)
     totals_stock=models.IntegerField('Inventario total')
     
     verbose_name = "Producto"
@@ -52,7 +53,7 @@ class Buys_products(models.Model):
     buys_bill=models.CharField("Factura de compra", max_length=100, unique=False, blank=False,null=False)
     buys_stock=models.IntegerField("Cantidad de entrada")
     buys_unit_value=models.DecimalField("Valor unidad", max_digits=11, decimal_places=2)
-    
+
     
     verbose_name = "Producto de entrada"
     verbose_name_plural = "Productos de entrada"
@@ -61,6 +62,18 @@ class Buys_products(models.Model):
     def __str__(self):
         return f'{self.product_id}'
 
+
+class Discounts(models.Model):
+    types=models.CharField("Tipo", max_length=100,blank=False, null=False)
+    description=models.CharField("Descripción", max_length=250,blank=False, null=False)
+    percentage=models.DecimalField("Porcentaje", max_digits=10, decimal_places=2)
+    
+    verbose_name = "Descuento"
+    verbose_name_plural = "Descuentos"
+    ordering = ["types"]
+    
+    def __str__(self):
+        return f'{self.types} - {self.description}- {self.percentage}'
 
 """It's Buy's Bill // Estos son los productos de Compra
 Example: 
@@ -87,6 +100,7 @@ class Sell_products(models.Model):
     sell_date=models.DateField("Fecha de venta", auto_now=False, auto_now_add=False)
     sell_bill=models.CharField("Factura de venta", max_length=100, unique=False, blank=False,null=False)
     sell_stock=models.IntegerField("Cantidad de Salida")
+    discount_id=models.ForeignKey(Discounts,verbose_name="Descuento", on_delete=models.CASCADE,null=True)
     
     verbose_name = "Producto de Salida"
     verbose_name_plural = "Productos de Salida"
@@ -94,3 +108,4 @@ class Sell_products(models.Model):
 
     def __str__(self):
         return f'{self.product_id}'
+

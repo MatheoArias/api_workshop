@@ -1,17 +1,10 @@
 from rest_framework import serializers
-from apps.bill.models import Discounts,PaymentMedium,Bill
+from apps.bill.models import PaymentMedium,Bill
 from apps.vehicle.api.serializers import VehicleSerilaizers
 from apps.customer.api.serializers import CustomerSerilizers,GetDocumentTypeSerializers
 from apps.employee.api.serializers import GetEmployeesTypeSerializers
 from apps.products.api.serializers import GetSellProductSerilaizers
-
-class DiscountsSerializers(serializers.ModelSerializer):
-    
-    class Meta:
-        model=Discounts
-        fields='__all__'
-
-            
+     
 class PaymentMediumSerilizers(serializers.ModelSerializer):
     
     class Meta:
@@ -30,27 +23,22 @@ class GetModelsSerializers(serializers.ModelSerializer):
         model=Bill
         fields='__all__'
     
-    employee_id = GetEmployeesTypeSerializers(
+    employee = GetEmployeesTypeSerializers(
         many=False,
         read_only=True,
     )
     
-    discounts_id= DiscountsSerializers(
-        many=False,
-        read_only=True,
-    )
-
-    customer_id=GetDocumentTypeSerializers(
+    customer = GetDocumentTypeSerializers(
         many=False,
         read_only=True,
     )
     
-    vehicle_id=VehicleSerilaizers(
+    vehicle = VehicleSerilaizers(
         many=False,
         read_only=True,  
     )
     
-    payment_medium_id=PaymentMediumSerilizers(
+    payment_medium = PaymentMediumSerilizers(
         many=False,
         read_only=True, 
     )
