@@ -1,5 +1,6 @@
 from django.db import models
 from apps.vehicle.models import Categories
+from django.db.models import Avg
 
 
 """It's products// --Estos osn los productos
@@ -108,4 +109,3 @@ class Sell_products(models.Model):
 
     def __str__(self):
         return f'{self.product_id}'
-
