@@ -51,6 +51,7 @@ class Employees(models.Model):
     residence_address=models.CharField("Dirección", max_length=200, unique=False, null=False, blank=False)
     email_address=models.EmailField('Correo Electrónico',unique=False, null=False, blank=False)
     employees_type=models.ForeignKey(Employees_type, verbose_name="Puesto de trabajo", on_delete=models.CASCADE)
+    percentage=models.FloatField("Porcentaje", unique=False, null=True, blank=False)
     
     class Meta:
         verbose_name = "Empleado"

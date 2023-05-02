@@ -2,9 +2,8 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 
 class UserManager(BaseUserManager):
-    def _create_user(self, username, email, name,last_name, password, is_staff, is_superuser, **extra_fields):
+    def _create_user(self, email, name,last_name, password, is_staff, is_superuser, **extra_fields):
         user = self.model(
-            username = username,
             email = email,
             name = name,
             last_name = last_name,
@@ -16,15 +15,14 @@ class UserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
-    def create_user(self, username, email, name,last_name, password=None, **extra_fields):
-        return self._create_user(username, email, name,last_name, password, False, False, **extra_fields)
+    def create_user(self, email, name,last_name, password=None, **extra_fields):
+        return self._create_user( email, name,last_name, password, False, False, **extra_fields)
 
-    def create_superuser(self, username, email, name,last_name, password=None, **extra_fields):
-        return self._create_user(username, email, name,last_name, password, True, True, **extra_fields)
+    def create_superuser(self, email, name,last_name, password=None, **extra_fields):
+        return self._create_user(email, name,last_name, password, True, True, **extra_fields)
     
 
 class User(AbstractBaseUser,PermissionsMixin):
-    username=models.CharField("Nombre de Usuario", max_length=100, unique=True)
     email = models.EmailField('Correo Electrónico',max_length = 255, unique = True)
     name = models.CharField('Nombres', max_length = 255, blank = True, null = True)
     last_name = models.CharField('Apellidos', max_length = 255, blank = True, null = True)
@@ -36,7 +34,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     verbose_name_plural = "Usuarios"
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username','name','last_name']
+    REQUIRED_FIELDS = ['name','last_name']
     
 
     def __str__(self):

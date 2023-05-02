@@ -1,4 +1,3 @@
-from urllib import response
 from django.contrib.auth import authenticate
 
 from rest_framework import viewsets
@@ -27,10 +26,10 @@ class Login(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
-        username = request.data.get('email', '')
+        email = request.data.get('email', '')
         password = request.data.get('password', '')
         user = authenticate(
-            username=username,
+            email=email,
             password=password
         )
 
@@ -41,7 +40,7 @@ class Login(TokenObtainPairView):
                 return Response({
                     'token': login_serializer.validated_data.get('access'),
                     'refresh_token': login_serializer.validated_data.get('refresh'),
-                    'user': user_serializer.data, 
+                    'user':user_serializer.data,
                     'message': 'Inicio de Sesion Existoso'
                 }, status=status.HTTP_200_OK)
             return Response({'error': 'Contraseña o nombre de usuario incorrectos'}, status=status.HTTP_400_BAD_REQUEST)

@@ -110,7 +110,6 @@ class GetSellProductStatisticsSerializer(serializers.ModelSerializer):
         dt = datetime.now()
         return Sell_products.objects.values('sell_date__year').annotate(Sum('product_id__unit_value'))
     
-    
     ##For Month
     #This is products sell month        
     def get_month_sell_stock(self,obj):
