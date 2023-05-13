@@ -35,9 +35,18 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER='teoarco@gmail.com'
+EMAIL_HOST_PASSWORD='ttqavarfwkygjwwr'
+EMAIL_USE_TLS=True
+
+REST_AUTH_PASSWORD_RESET_CONFIRM_TEMPLATE = 'password_reset_email.html'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
