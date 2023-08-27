@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from apps.products.models import Products, Buys_products,Sell_products,Discounts
-from apps.category.api.serializers import CategoriesSerilaizers
+from apps.category.api.serializers import ProductCategoriesSerilaizers
 from django.db.models import Avg, Max, Min,Sum,Count
 from datetime import datetime
 from statistics import median
@@ -10,44 +10,15 @@ import math
 
 class GetCategoriesSerializer(serializers.ModelSerializer):
     
-    category_id = CategoriesSerilaizers(
+    category_id = ProductCategoriesSerilaizers(
         many=False,
         read_only=True,
     )
     
-    buy_value=serializers.SerializerMethodField()
-    sell_value=serializers.SerializerMethodField()
-    profit=serializers.SerializerMethodField()
-    
     class Meta:
         model = Products
-        fields = 'id','category_id','description','code','unit_value','percentage','profit','last_tax_buy','totals_stock','buy_value','sell_value'
+        fields = '__all__'
     
-    ##This function id for add products profit
-    def get_profit(self,obj):
-        product=Products.objects.get(pk=obj.pk)
-        unit_value=product.unit_value
-        profit=math.ceil((product.percentage * unit_value)/100)*100
-        return profit
-    
-    ##This function is for add products's buy price
-    def get_buy_value(self,obj):
-        product=Products.objects.get(pk=obj.pk)
-        last_tax_buy=product.last_tax_buy + 1
-        unit_value=product.unit_value
-        return math.floor(unit_value/last_tax_buy)
-
-    ##This function is for add products's sell price
-    def get_sell_value(self,obj):
-        product=Products.objects.get(pk=obj.pk)
-        last_tax_buy=product.last_tax_buy
-        unit_value=product.unit_value
-        sell_subprice=unit_value + (product.percentage * unit_value)
-        subtotal=math.floor(sell_subprice/100)*100
-        tax=math.ceil((subtotal * last_tax_buy)/100)*100
-        total=subtotal + tax
-        return {'subtotal_sell':subtotal,'tax':tax,'total_sell':total} 
-        
 class DiscountsSerializers(serializers.ModelSerializer):
     
     class Meta:
@@ -76,19 +47,20 @@ class GetBuyProductSerilaizers(serializers.ModelSerializer):
         read_only=True,
     )
 
-    price_base_buy=serializers.SerializerMethodField()
+    total_buys=serializers.SerializerMethodField()
     class Meta:
 
         model = Buys_products
-        fields = 'tax_buy','id','product_id','buys_date','buys_bill','buys_stock','buys_unit_value','price_base_buy'
+        fields = 'id','product_id','buys_date','buys_bill','buys_stock','buys_unit_value','tax_buy','total_buys'
     
-    def get_price_base_buy(self,obj):
+    def get_total_buys(self,obj):
         buy_product=Buys_products.objects.get(pk=obj.pk)
-        product=Products.objects.get(pk=buy_product.product_id.id)
         tax_buy=buy_product.tax_buy + 1
-        price_base=math.floor(product.unit_value/tax_buy)
-        return {'price_base':price_base,'tax_buy':product.unit_value-price_base}
-    
+        price_base=buy_product.buys_unit_value/tax_buy
+        subtotal=price_base * buy_product.buys_stock
+        tax_value=subtotal*buy_product.tax_buy
+        total_buy=subtotal+tax_value
+        return {'price_base_buy':price_base,'subtotal':subtotal,'tax':tax_value,'total':total_buy}
     
 class SellProductsSerializer(serializers.ModelSerializer):
     
@@ -112,17 +84,20 @@ class GetSellProductSerilaizers(serializers.ModelSerializer):
     class Meta:
 
         model = Sell_products
-        fields = 'tax_sell','id','product_id','sell_date','sell_bill','sell_stock','discount_id','total_sell'
+        fields = 'id','product_id','sell_date','sell_bill','sell_stock','tax_sell','discount_id','total_sell'
             
     def get_total_sell(self,obj):
         sell_product=Sell_products.objects.get(pk=obj.pk)
         product=Products.objects.get(pk=sell_product.product_id.id)
-        sell_unit=math.floor((product.unit_value + (product.percentage * product.unit_value))/100)*100
-        subtotal =math.ceil(sell_unit * sell_product.sell_stock)
-        profit=(math.ceil((product.percentage * product.unit_value)/100)*100) * sell_product.sell_stock
-        tax_value=math.ceil((sell_product.tax_sell * subtotal)/100)*100
+        
+        unit_sell_value=product.unit_value + (product.percentage * product.unit_value)
+        stock=float(sell_product.sell_stock)
+        subtotal =unit_sell_value * sell_product.sell_stock
+        profit=product.percentage * product.unit_value  * stock
+        tax_value=sell_product.tax_sell * float(subtotal)
         if sell_product.discount_id:
-            discount= math.ceil((profit * sell_product.discount_id.percentage)/100)*100
+            percentage=float(sell_product.discount_id.percentage)
+            discount=profit * percentage
         else:
             discount=0
         total=subtotal- discount + tax_value

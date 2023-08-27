@@ -2,7 +2,6 @@ from rest_framework import serializers
 from apps.bill.models import PaymentMedium,Bill
 from apps.vehicle.api.serializers import VehicleSerilaizers
 from apps.customer.api.serializers import CustomerSerilizers,GetDocumentTypeSerializers
-from apps.employee.api.serializers import GetEmployeesTypeSerializers
 from apps.products.api.serializers import GetSellProductSerilaizers
      
 class PaymentMediumSerilizers(serializers.ModelSerializer):
@@ -22,11 +21,6 @@ class GetModelsSerializers(serializers.ModelSerializer):
     class Meta:
         model=Bill
         fields='__all__'
-    
-    employee = GetEmployeesTypeSerializers(
-        many=False,
-        read_only=True,
-    )
     
     customer = GetDocumentTypeSerializers(
         many=False,

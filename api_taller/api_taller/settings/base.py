@@ -65,13 +65,13 @@ BASE_APPS=[
 ]
 
 LOCAL_APPS=[
-    'apps.employee',
     'apps.products',
     'apps.vehicle',
     'apps.customer',
     'apps.bill',
     'apps.category',
-    'apps.users'
+    'apps.users',
+    'apps.movements'
 ]
 
 THIRD_APPS=[

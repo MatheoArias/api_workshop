@@ -1,8 +1,8 @@
 from rest_framework import viewsets
-from apps.category.api.serializers import CategoriesSerilaizers
-from apps.vehicle.models import Categories
+from apps.category.api.serializers import ProductCategoriesSerilaizers
+from apps.category.models import ProductCategories
 
-class CategoriesViewSet(viewsets.ModelViewSet):
-    serializer_class=CategoriesSerilaizers
-    queryset=Categories.objects.all()
+class ProductCategoriesViewSet(viewsets.ModelViewSet):
+    serializer_class=ProductCategoriesSerilaizers
+    queryset=ProductCategories.objects.all()
     

@@ -7,8 +7,8 @@ from rest_auth.views import PasswordResetView,PasswordResetConfirmView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('employees/',include('apps.employee.api.routers')),
     path('products/',include('apps.products.api.routers')),
+    path('movements/',include('apps.movements.api.routers')),
     path('vehicles/',include('apps.vehicle.api.routers')),
     path('categories/',include('apps.category.api.routers')),
     path('customers/',include('apps.customer.api.routers')),
